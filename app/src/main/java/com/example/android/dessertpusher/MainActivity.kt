@@ -28,11 +28,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
+import com.example.android.dessertpusher.DessertTimer
 
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
     private var dessertsSold = 0
+    private lateinit var dessertTimer: DessertTimer
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
@@ -82,6 +84,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         binding.dessertButton.setImageResource(currentDessert.imageId)
 
         Timber.i("On create function")
+
+        dessertTimer = DessertTimer()
     }
 
     /**
@@ -155,6 +159,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onStart() {
         Timber.i("On start function")
+        dessertTimer.startTimer()
         super.onStart()
     }
 
@@ -180,6 +185,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onStop() {
         Timber.i("On Stop")
+        dessertTimer.stopTimer()
         super.onStop()
     }
 }
