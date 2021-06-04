@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
         Timber.i("On create function")
 
-        dessertTimer = DessertTimer()
+        dessertTimer = DessertTimer(this.lifecycle)
     }
 
     /**
@@ -159,7 +159,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onStart() {
         Timber.i("On start function")
-        dessertTimer.startTimer()
         super.onStart()
     }
 
@@ -185,7 +184,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onStop() {
         Timber.i("On Stop")
-        dessertTimer.stopTimer()
         super.onStop()
     }
 }
