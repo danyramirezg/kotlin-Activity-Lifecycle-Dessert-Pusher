@@ -30,6 +30,8 @@ import com.example.android.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
 import com.example.android.dessertpusher.DessertTimer
 
+const val KEY_REVENUE = "KEY_REVENUE"
+
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
@@ -76,6 +78,13 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             onDessertClicked()
         }
 
+        // Retrieve and use the data in onCreate if you're restarting to Activity
+        if (savedInstanceState != null) {
+            revenue = savedInstanceState.getInt(KEY_REVENUE)
+            dessertsSold = savedInstanceState.getInt(KEY_REVENUE)
+            dessertTimer.secondsCount = savedInstanceState.getInt(KEY_REVENUE)
+        }
+
         // Set the TextViews to the right values
         binding.revenue = revenue
         binding.amountSold = dessertsSold
@@ -86,6 +95,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         Timber.i("On create function")
 
         dessertTimer = DessertTimer(this.lifecycle)
+
+
     }
 
     /**
@@ -145,6 +156,20 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
     }
 
+    // Data is saved and restored, even if the app is shut down in the background:
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Timber.i("On save Instance state method")
+        outState.putInt(KEY_REVENUE, revenue)
+        outState.putInt(KEY_REVENUE, dessertsSold)
+        outState.putInt(KEY_REVENUE, dessertTimer.secondsCount)
+    }
+
+//    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+//        super.onRestoreInstanceState(savedInstanceState)
+//        Timber.i("Restore instance state method")
+//    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -186,4 +211,5 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         Timber.i("On Stop")
         super.onStop()
     }
+
 }
